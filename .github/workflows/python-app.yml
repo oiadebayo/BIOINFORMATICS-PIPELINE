@@ -39,6 +39,11 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r scripts/port/create-repo/requirements.txt
+
       - name: Run Python script to create repo
         id: run_script
         env:
