@@ -113,7 +113,8 @@ def create_repository():
         return {"success": False, "error": {"message": str(e)}}
 
 def main():
-    create_repository()
+    result = create_repository()
+    print(result)
 
 if __name__ == "__main__":
     main()
