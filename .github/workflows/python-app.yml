@@ -1,38 +1,37 @@
 # This workflow will install Python dependencies, run tests and lint with a single version of Python
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
-
-name: Create Repository Workflow
-
+name: Create GitHub Repo
+run-name: ${{ github.actor }} is creating a new GitHub repository 🚀
 on:
-  workflow_dispatch: # Allows manual triggering of the workflow
+  workflow_dispatch:
     inputs:
       repository_name:
-        description: 'Name of the repository'
-        required: true
-        default: 'my-repo'
+        type: string
       owner_team:
-        description: 'Owner team name'
-        required: true
-        default: 'default-team'
+        type: string
       autolink_key_prefix:
-        description: 'Autolink key prefix'
-        required: true
-        default: 'ABC'
+        type: string
       default_branch:
-        description: 'Default branch name'
-        required: true
-        default: 'main'
+        type: string
       run_id:
-        description: 'Run identifier for logging'
-        required: true
-        default: '12345'
-
+        type: string
 jobs:
-  create_repo:
+
+  Create-Repo:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Log repository creation
+        uses: port-labs/port-github-action@v1
+        with:
+          clientId: ${{ secrets.PORT_CLIENT_ID }}
+          clientSecret: ${{ secrets.PORT_CLIENT_SECRET }}
+          operation: PATCH_RUN
+          runId: ${{ inputs.run_id }}
+          logMessage: |
+            Creating repository "${{ inputs.repository_name }}" with default branch ${{ inputs.default_branch }}⏳.
+
+      - name: Check out repository code
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -68,3 +67,4 @@ jobs:
           runId: ${{ inputs.run_id }}
           logMessage: |
             "LOG: ${{ steps.run_script.outputs.SCRIPT_OUTPUT }}"
+            
