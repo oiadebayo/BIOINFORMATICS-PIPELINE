@@ -113,9 +113,7 @@ def create_repository():
         return {"success": False, "error": {"message": str(e)}}
 
 def main():
-    result = create_repository()
-    sys.stdout.write(json.dumps(result))
-    sys.stdout.flush()
+    create_repository()
 
 if __name__ == "__main__":
     main()
