@@ -1,0 +1,24 @@
+name: Generate Scorecards Reminders
+on:
+  schedule:
+    # Run every day at 9am
+    - cron: '0 9 * * *'
+  workflow_dispatch:
+jobs:
+  generate-scorecards-reminders:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        channel: [ CHANNEL1, CHANNEL2 ]  # identifiers for your channels
+    steps:
+      - name: Generate Scorecards Reminder for ${{ matrix.channel }}
+        uses: port-labs/port-sender@v0.2.4
+        with:
+          operation_kind: scorecard_reminder
+          port_client_id: ${{ secrets.PORT_CLIENT_ID }}
+          port_client_secret: ${{ secrets.PORT_CLIENT_SECRET }}
+          slack_webhook_url: ${{ secrets['SLACK_WEBHOOK_URL_' + matrix.channel] }}
+          blueprint: app
+          scorecard: productionReadiness
+          filter_rule: '{"property": "$team","operator": "containsAny","value": ["Backend Team"]}'
+          target_kind: slack
