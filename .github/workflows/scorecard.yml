@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        channel: [ CHANNEL1, CHANNEL2 ]  # identifiers for your channels
+        channel: [ CHANNEL_1, CHANNEL_2 ]  # identifiers for your channels
     steps:
       - name: Generate Scorecards Reminder for ${{ matrix.channel }}
         uses: port-labs/port-sender@v0.2.4
