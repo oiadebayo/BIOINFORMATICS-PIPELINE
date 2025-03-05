@@ -18,7 +18,6 @@ jobs:
           port_client_id: ${{ secrets.PORT_CLIENT_ID }}
           port_client_secret: ${{ secrets.PORT_CLIENT_SECRET }}
           slack_webhook_url: ${{ secrets['SLACK_WEBHOOK_URL_' + matrix.channel] }}
-          blueprint: app
-          scorecard: productionReadiness
-          filter_rule: '{"property": "$team","operator": "containsAny","value": ["Backend Team"]}'
+          blueprint: bitbucketRepository
+          scorecard: Ownership
           target_kind: slack
