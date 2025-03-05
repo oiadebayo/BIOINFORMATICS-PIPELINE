@@ -9,7 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        channel: [ CHANNEL_1, CHANNEL_2 ]  # identifiers for your channels
+        include:
+          - channel: CHANNEL1
+            webhook: ${{ secrets.SLACK_WEBHOOK_URL_CHANNEL1 }}
+          - channel: CHANNEL2
+            webhook: ${{ secrets.SLACK_WEBHOOK_URL_CHANNEL2 }}
     steps:
       - name: Generate Scorecards Reminder for ${{ matrix.channel }}
         uses: port-labs/port-sender@v0.2.4
@@ -17,7 +21,7 @@ jobs:
           operation_kind: scorecard_reminder
           port_client_id: ${{ secrets.PORT_CLIENT_ID }}
           port_client_secret: ${{ secrets.PORT_CLIENT_SECRET }}
-          slack_webhook_url: ${{ secrets['SLACK_WEBHOOK_URL_' + matrix.channel] }}
+          slack_webhook_url: ${{ matrix.webhook }}
           blueprint: bitbucketRepository
           scorecard: Ownership
           target_kind: slack
