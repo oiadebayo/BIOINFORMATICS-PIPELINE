@@ -21,4 +21,5 @@ jobs:
           slack_webhook_url: ${{ secrets[matrix.channel] }}
           blueprint: bitbucketRepository
           scorecard: Ownership
+          filter_rule: '{"property": "$","operator": "isNotEmpty"}'
           target_kind: slack
