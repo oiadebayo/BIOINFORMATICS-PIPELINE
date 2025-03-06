@@ -9,17 +9,16 @@ jobs:
     strategy:
       matrix:
         channel:
-          - SLACK_WEBHOOK_URL_CHANNEL1
-          - SLACK_WEBHOOK_URL_CHANNEL2
+          - SLACK_WEBHOOK_URL_CHANNEL_1
+          - SLACK_WEBHOOK_URL_CHANNEL_2
     steps:
       - name: Generate Scorecards Reminder for ${{ matrix.channel }}
         uses: port-labs/port-sender@v0.2.4
         with:
-          channel: ${{ matrix.channel }}
           operation_kind: scorecard_reminder
           port_client_id: ${{ secrets.PORT_CLIENT_ID }}
           port_client_secret: ${{ secrets.PORT_CLIENT_SECRET }}
-          slack_webhook_url: ${{ secrets[channel] }}
+          slack_webhook_url: ${{ secrets[matrix.channel] }}
           blueprint: bitbucketRepository
           scorecard: Ownership
           target_kind: slack
